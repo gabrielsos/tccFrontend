@@ -39,6 +39,10 @@ export const AnimationContainer = styled.div`
 
   animation: ${apperFromLeft} 1s;
 
+  button {
+    width: 100%;
+  }
+
   form {
     margin: 80px 0;
     width: 340px;

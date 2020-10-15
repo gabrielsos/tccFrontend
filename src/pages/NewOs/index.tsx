@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
+import { FiArrowLeft, FiTrash } from 'react-icons/fi';
 import api from '../../services/api';
 import Button from '../../components/Button';
 
@@ -15,6 +16,7 @@ import {
   Content,
   AnimationContainer,
   AddEquipmentContainer,
+  ListEquipmentContainer,
 } from './styles';
 
 interface LocalData {
@@ -33,6 +35,11 @@ interface OsTypeData {
   typeName: string;
 }
 
+interface equip {
+  equipmentName: string;
+  equipmentSerialNumber: string;
+}
+
 const SignIn: React.FC = () => {
   const history = useHistory();
 
@@ -40,32 +47,45 @@ const SignIn: React.FC = () => {
   const [equipments, setEquipments] = useState<EquipmentData[]>([]);
   const [addedEquipments, setAddedEquipments] = useState(['']);
   const [addedEquipmentsName, setAddedEquipmentsName] = useState(['']);
+  const [addedEquip, setAddedEquip] = useState<equip[]>([]);
   const [osTypes, setOsTypes] = useState<OsTypeData[]>([]);
   const [selectedLocal, setSelectedLocal] = useState('0');
   const [selectedOsType, setSelectedOsType] = useState('0');
   const [selectedEquipment, setSelectedEquipment] = useState('0');
   const [selectedEquipmentName, setSelectedEquipmentName] = useState('');
-  const [password, setPassword] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleSubmit = useCallback(
     async (e: FormEvent) => {
       e.preventDefault();
 
-      try {
-        const response = await api.post('sessions', {
-          password,
+      const loginName = localStorage.getItem('loginName');
+
+      addedEquipments.shift();
+
+      const newAddedEquipment = addedEquipments.filter(
+        (current, i) => addedEquipments.indexOf(current) === i,
+      );
+
+      if (
+        selectedOsType === '0' ||
+        description === undefined ||
+        newAddedEquipment.length === 0 ||
+        loginName === undefined
+      ) {
+        alert('Preencha todos os campos!');
+      } else {
+        await api.post('profile/newos', {
+          osDescription: description,
+          osTypeId: selectedOsType,
+          equipmentSerialNumber: newAddedEquipment,
+          loginName,
         });
 
-        localStorage.setItem('loginName', response.data.loginName);
-        localStorage.setItem('name', response.data.name);
-        localStorage.setItem('email', response.data.email);
-
-        history.push('/profile');
-      } catch (er) {
-        console.log('erro ao logar');
+        history.push('/');
       }
     },
-    [password, history],
+    [addedEquipments, description, history, selectedOsType],
   );
 
   useEffect(() => {
@@ -92,6 +112,12 @@ const SignIn: React.FC = () => {
         },
       });
 
+      setSelectedEquipment('0');
+      setAddedEquipments(['']);
+      setAddedEquipmentsName(['']);
+
+      setAddedEquip([]);
+
       setEquipments(response.data);
     },
     [],
@@ -106,9 +132,8 @@ const SignIn: React.FC = () => {
 
       if (equipmentName) {
         setSelectedEquipmentName(equipmentName);
+        setSelectedEquipment(equipment);
       }
-
-      setSelectedEquipment(equipment);
     },
     [],
   );
@@ -124,12 +149,33 @@ const SignIn: React.FC = () => {
 
   const handleAddEquipment = useCallback(() => {
     if (selectedEquipment !== '0') {
-      if (addedEquipments.length === 1) {
-        setAddedEquipments([selectedEquipment]);
-        setAddedEquipmentsName([selectedEquipmentName]);
-      }
       setAddedEquipments([...addedEquipments, selectedEquipment]);
       setAddedEquipmentsName([...addedEquipmentsName, selectedEquipmentName]);
+
+      const newAddedEquipment = addedEquipments.filter(
+        (current, i) => addedEquipments.indexOf(current) === i,
+      );
+
+      const newAddedEquipmentName = addedEquipmentsName.filter(
+        (current, i) => addedEquipmentsName.indexOf(current) === i,
+      );
+
+      newAddedEquipment.shift();
+      newAddedEquipmentName.shift();
+
+      console.log(newAddedEquipment.length);
+      const teste = [];
+
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < newAddedEquipment.length; i++) {
+        console.log('entrou');
+        teste.push({
+          equipmentName: newAddedEquipmentName[i],
+          equipmentSerialNumber: newAddedEquipment[i],
+        });
+      }
+
+      setAddedEquip(teste);
     }
   }, [
     addedEquipments,
@@ -138,7 +184,26 @@ const SignIn: React.FC = () => {
     selectedEquipmentName,
   ]);
 
-  const handleNewOs = useCallback(() => {}, []);
+  const handleDelete = useCallback(
+    (id: string, name: string) => {
+      const addedEquipFiltered = addedEquip.filter(
+        addEquip => addEquip.equipmentSerialNumber !== id,
+      );
+
+      const addedEquipNameFiltered = addedEquipmentsName.filter(
+        addEquip => addEquip !== name,
+      );
+
+      const addedEquipSerialFiltered = addedEquipments.filter(
+        addEquip => addEquip !== id,
+      );
+
+      setAddedEquip(addedEquipFiltered);
+      setAddedEquipmentsName(addedEquipNameFiltered);
+      setAddedEquipments(addedEquipSerialFiltered);
+    },
+    [addedEquip, addedEquipments, addedEquipmentsName],
+  );
 
   return (
     <Container>
@@ -146,11 +211,11 @@ const SignIn: React.FC = () => {
         <AnimationContainer>
           <form onSubmit={handleSubmit}>
             <h1>Criação de ordem de serviço</h1>
-
+            <FiArrowLeft size={24} color="#ff9000" onClick={history.goBack} />
             <textarea
               placeholder="Digite a descrição"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
+              value={description}
+              onChange={e => setDescription(e.target.value)}
             />
 
             <select
@@ -168,9 +233,7 @@ const SignIn: React.FC = () => {
               ))}
             </select>
 
-            <p>
-              OBS: Só é possível abrir ordem de serviço para um único local.
-            </p>
+            <h3>OBS: Selecione somente equipamentos de um único local.</h3>
             <AddEquipmentContainer>
               <select
                 value={selectedLocal}
@@ -210,15 +273,25 @@ const SignIn: React.FC = () => {
               </button>
             </AddEquipmentContainer>
 
-            <ul>
-              {addedEquipmentsName.map(equipment => (
-                <li>{equipment}</li>
-              ))}
-            </ul>
+            <ListEquipmentContainer>
+              <h3>Equipamentos selecionados:</h3>
+              <ul>
+                {addedEquip?.map(equipment => (
+                  <li key={equipment.equipmentSerialNumber}>
+                    {equipment.equipmentName}
+                    <FiTrash
+                      onClick={() =>
+                        handleDelete(
+                          equipment.equipmentSerialNumber,
+                          equipment.equipmentName,
+                        )}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </ListEquipmentContainer>
 
-            <Button onClick={handleNewOs} type="submit">
-              Confirmar
-            </Button>
+            <Button type="submit">Confirmar</Button>
           </form>
         </AnimationContainer>
       </Content>
