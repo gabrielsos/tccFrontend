@@ -1,14 +1,20 @@
 import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
 
-import asideImg from '../../assets/asideImg.svg';
-
 export const Container = styled.div`
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #363636;
+
+  select {
+    margin-right: 10px;
+    border-radius: 10px;
+    background: #fff;
+    color: #ff9000;
+    height: 30px;
+  }
 `;
 
 export const Content = styled.div`
@@ -18,7 +24,8 @@ export const Content = styled.div`
   justify-content: center;
   place-content: center;
 
-  width: 100%;
+  width: 50%;
+  height: 100%;
   max-width: 700px;
 `;
 
@@ -36,7 +43,14 @@ export const AnimationContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+  h3 {
+    align-self: flex-start;
+    color: #ff9000;
+    margin: 10px 0 10px 0;
+  }
 
   animation: ${apperFromLeft} 1s;
 
@@ -45,9 +59,18 @@ export const AnimationContainer = styled.div`
   }
 
   form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     margin: 80px 0;
-    width: 340px;
+    width: 70%;
+    height: 100%;
     text-align: center;
+
+    svg {
+      cursor: pointer;
+      align-self: flex-start;
+    }
   }
 
   input {
@@ -55,8 +78,18 @@ export const AnimationContainer = styled.div`
   }
 
   h1 {
-    margin-bottom: 24px;
+    margin: 10px 0 24px 0;
     color: #fff;
+  }
+
+  textarea {
+    width: 80%;
+    resize: none;
+    margin: 10px 0 10px 0;
+
+    ::placeholder {
+      color: #ff9000;
+    }
   }
 
   a {
@@ -95,4 +128,44 @@ export const AddEquipmentContainer = styled.div`
   align-self: flex-start;
 
   justify-content: space-between;
+
+  button {
+    width: 150px;
+    color: #ff9000;
+    border-radius: 10px;
+  }
+`;
+
+export const ListEquipmentContainer = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 10px 0 10px 0;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+
+    li {
+      margin-top: 5px;
+    }
+  }
+
+  h3 {
+    color: #ff9000;
+  }
+
+  svg {
+    cursor: pointer;
+    margin-left: 10px;
+  }
+
+  li {
+    color: #fff;
+  }
 `;
