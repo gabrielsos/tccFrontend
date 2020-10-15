@@ -28,7 +28,7 @@ const SignIn: React.FC = () => {
 
         history.push('/profile');
       } catch (er) {
-        console.log('erro ao logar');
+        alert('Usuário e/ou senha inválidos.');
       }
     },
     [loginName, password, history],
