@@ -6,9 +6,11 @@ import {
 } from 'react-router-dom';
 
 import authenticated from '../utils/authenticated';
+import admin from '../utils/admin';
 
 interface RouteProps extends ReactDOMRouteProps {
   isPrivate?: boolean;
+  isAdmin?: boolean;
   component: React.ComponentType;
 }
 
@@ -26,7 +28,8 @@ const Route: React.FC<RouteProps> = ({
         ) : (
           <Redirect
             to={{
-              pathname: isPrivate ? '/' : '/profile',
+              // eslint-disable-next-line no-nested-ternary
+              pathname: isPrivate ? '/' : admin() ? '/profile' : '/admin',
               state: { from: location },
             }}
           />
