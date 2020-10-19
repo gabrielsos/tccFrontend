@@ -13,6 +13,7 @@ interface osRegisterData {
   name: string;
   osRegisterDescription: string;
   rightDate: string;
+  osRegisterDate: string;
 }
 
 const Profile: React.FC = () => {
@@ -46,7 +47,7 @@ const Profile: React.FC = () => {
         </ContentHeader>
         <ul>
           {osRegisters.map(o => (
-            <li key={o.osId}>
+            <li key={o.osRegisterDate}>
               <strong>Responsável pelo registro</strong>
               <p>{o.name}</p>
 
