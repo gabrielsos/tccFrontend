@@ -25,8 +25,13 @@ const SignIn: React.FC = () => {
         localStorage.setItem('loginName', response.data.loginName);
         localStorage.setItem('name', response.data.name);
         localStorage.setItem('email', response.data.email);
+        localStorage.setItem('userType', response.data.userType);
 
-        history.push('/profile');
+        if (response.data.userType === 1) {
+          history.push('/profile');
+        } else {
+          history.push('/admin');
+        }
       } catch (er) {
         alert('Usuário e/ou senha inválidos.');
       }
