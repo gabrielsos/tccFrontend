@@ -6,7 +6,7 @@ export const Container = styled.div`
   height: 100%;
   background: #1c1c1c;
   align-items: center;
-  padding: 0 200px 0 200px;
+  padding: 0 230px 0 210px;
   justify-content: space-between;
 
   ul {
@@ -18,6 +18,10 @@ export const Container = styled.div`
 
     align-items: center;
     justify-content: space-between;
+  }
+
+  li:hover {
+    color: #ff9000;
   }
 
   li {
