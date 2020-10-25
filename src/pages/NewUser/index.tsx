@@ -24,12 +24,10 @@ const NewUser: React.FC = () => {
     async (e: FormEvent) => {
       e.preventDefault();
 
-      console.log(selectedUserType);
-
       if (
-        name !== '' ||
-        loginName !== '' ||
-        email !== '' ||
+        name !== '' &&
+        loginName !== '' &&
+        email !== '' &&
         selectedUserType !== '5'
       ) {
         try {
