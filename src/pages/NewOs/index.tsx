@@ -5,7 +5,7 @@ import React, {
   useEffect,
   ChangeEvent,
 } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { FiArrowLeft, FiTrash } from 'react-icons/fi';
 import api from '../../services/api';
@@ -282,7 +282,8 @@ const SignIn: React.FC = () => {
                         handleDelete(
                           equipment.equipmentSerialNumber,
                           equipment.equipmentName,
-                        )}
+                        )
+                      }
                     />
                   </li>
                 ))}

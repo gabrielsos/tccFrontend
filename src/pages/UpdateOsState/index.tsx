@@ -7,7 +7,7 @@ import Button from '../../components/Button';
 
 import { Container, Content, AnimationContainer } from './styles';
 
-const NewLocal: React.FC = () => {
+const UpdateOsState: React.FC = () => {
   const history = useHistory();
 
   const [osStateName, setOsStateName] = useState('');
@@ -66,4 +66,4 @@ const NewLocal: React.FC = () => {
   );
 };
 
-export default NewLocal;
+export default UpdateOsState;

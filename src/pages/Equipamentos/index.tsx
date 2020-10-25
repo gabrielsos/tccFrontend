@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FiArrowLeft, FiEdit, FiTrash } from 'react-icons/fi';
+import { FiEdit, FiTrash } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
@@ -99,15 +99,13 @@ const Equipments: React.FC = () => {
                         equipment.equipmentSerialNumber,
                         equipment.equipmentName,
                         equipment.localId,
-                      )
-                    }
+                      )}
                   />
                   <FiTrash
                     size={24}
                     color="#fff"
                     onClick={() =>
-                      handleDelete(equipment.equipmentSerialNumber)
-                    }
+                      handleDelete(equipment.equipmentSerialNumber)}
                   />
                 </ButtonsContainer>
               </li>

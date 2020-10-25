@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FiArrowLeft, FiEdit, FiTrash } from 'react-icons/fi';
 import { Link, useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
@@ -7,14 +6,7 @@ import api from '../../services/api';
 import HeaderMenu from '../../components/HeaderMenu';
 import Header from '../../components/Header';
 
-import {
-  Container,
-  Content,
-  ContentHeader,
-  AsideContainer,
-  ButtonsContainer,
-  NameContainer,
-} from './styles';
+import { Container, Content, ContentHeader, AsideContainer } from './styles';
 import Button from '../../components/Button';
 
 interface osData {
@@ -30,7 +22,7 @@ interface osData {
   typeName: string;
 }
 
-const Locals: React.FC = () => {
+const Historico: React.FC = () => {
   const history = useHistory();
 
   const [allOs, setallOs] = useState<osData[]>([]);
@@ -77,8 +69,7 @@ const Locals: React.FC = () => {
             <Link
               to={`/admin/os/${o.osId}`}
               onClick={() =>
-                handleShowRegisters(String(o.osId), o.initDate, o.osStateName)
-              }
+                handleShowRegisters(String(o.osId), o.initDate, o.osStateName)}
             >
               <li key={o.osId}>
                 <strong>Status</strong>
@@ -110,4 +101,4 @@ const Locals: React.FC = () => {
   );
 };
 
-export default Locals;
+export default Historico;

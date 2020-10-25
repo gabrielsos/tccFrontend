@@ -18,7 +18,7 @@ interface osStateData {
   osStateName: string;
 }
 
-const SignIn: React.FC = () => {
+const NewRegister: React.FC = () => {
   const history = useHistory();
 
   const [description, setDescription] = useState('');
@@ -106,4 +106,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default NewRegister;

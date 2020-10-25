@@ -22,7 +22,7 @@ interface osData {
   typeName: string;
 }
 
-const Profile: React.FC = () => {
+const Admin: React.FC = () => {
   const [os, setOs] = useState<osData[]>([]);
   const history = useHistory();
 
@@ -75,8 +75,7 @@ const Profile: React.FC = () => {
             <Link
               to={`/admin/os/${o.osId}`}
               onClick={() =>
-                handleShowRegisters(String(o.osId), o.initDate, o.osStateName)
-              }
+                handleShowRegisters(String(o.osId), o.initDate, o.osStateName)}
             >
               <li key={o.osId}>
                 <strong>Status</strong>
@@ -105,4 +104,4 @@ const Profile: React.FC = () => {
   );
 };
 
-export default Profile;
+export default Admin;

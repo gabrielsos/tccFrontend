@@ -12,7 +12,7 @@ interface LocalData {
   localName: string;
 }
 
-const NewEquipment: React.FC = () => {
+const NewUser: React.FC = () => {
   const history = useHistory();
 
   const [name, setName] = useState('');
@@ -102,4 +102,4 @@ const NewEquipment: React.FC = () => {
   );
 };
 
-export default NewEquipment;
+export default NewUser;

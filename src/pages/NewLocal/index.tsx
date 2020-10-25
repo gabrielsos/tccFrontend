@@ -30,7 +30,7 @@ const NewLocal: React.FC = () => {
         alert('Preencha todos os campos.');
       }
     },
-    [localName],
+    [history, localName],
   );
 
   return (

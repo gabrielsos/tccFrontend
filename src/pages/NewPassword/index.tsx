@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import api from '../../services/api';
 import Button from '../../components/Button';
 
-import { Container, Content, AnimationContainer, Background } from './styles';
+import { Container, Content, AnimationContainer } from './styles';
 
 const NewPassword: React.FC = () => {
   const history = useHistory();

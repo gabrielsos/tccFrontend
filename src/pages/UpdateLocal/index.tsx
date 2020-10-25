@@ -7,7 +7,7 @@ import Button from '../../components/Button';
 
 import { Container, Content, AnimationContainer } from './styles';
 
-const NewLocal: React.FC = () => {
+const UpdateLocal: React.FC = () => {
   const history = useHistory();
 
   const [localName, setLocalName] = useState('');
@@ -42,7 +42,7 @@ const NewLocal: React.FC = () => {
         alert('Preencha todos os campos.');
       }
     },
-    [history, localName],
+    [history, localId, localName],
   );
 
   return (
@@ -67,4 +67,4 @@ const NewLocal: React.FC = () => {
   );
 };
 
-export default NewLocal;
+export default UpdateLocal;

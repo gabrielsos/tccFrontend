@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FiArrowLeft } from 'react-icons/fi';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
 
@@ -19,7 +18,7 @@ interface osRegisterData {
   rightDate: string;
 }
 
-const Profile: React.FC = () => {
+const AdminRegisters: React.FC = () => {
   const history = useHistory();
 
   const [osRegisters, setOsRegisters] = useState<osRegisterData[]>([]);
@@ -87,4 +86,4 @@ const Profile: React.FC = () => {
   );
 };
 
-export default Profile;
+export default AdminRegisters;

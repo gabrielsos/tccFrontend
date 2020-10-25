@@ -22,8 +22,6 @@ const SignIn: React.FC = () => {
           password,
         });
 
-        console.log(response.data.userType);
-
         localStorage.setItem('loginName', response.data.loginName);
         localStorage.setItem('name', response.data.name);
         localStorage.setItem('email', response.data.email);

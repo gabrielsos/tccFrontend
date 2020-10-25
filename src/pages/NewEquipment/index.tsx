@@ -60,7 +60,7 @@ const NewEquipment: React.FC = () => {
         alert('Preencha todos os campos.');
       }
     },
-    [equipmentName, equipmentSerialNumber, selectedLocal],
+    [equipmentName, equipmentSerialNumber, history, selectedLocal],
   );
 
   const handleSelectLocal = useCallback(

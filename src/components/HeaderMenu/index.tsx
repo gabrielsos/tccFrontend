@@ -1,27 +1,12 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 
-import { FiPower } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 import { Container } from './styles';
 
-const Header: React.FC = () => {
-  const [loginName, setLoginName] = useState('');
+const HeaderMenu: React.FC = () => {
   const history = useHistory();
-
-  useEffect(() => {
-    const name = localStorage.getItem('name');
-
-    if (name) {
-      setLoginName(name);
-    }
-  }, []);
-
-  const handleLogout = useCallback(() => {
-    localStorage.clear();
-    history.push('/');
-  }, [history]);
 
   return (
     <Container>
@@ -41,4 +26,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default HeaderMenu;

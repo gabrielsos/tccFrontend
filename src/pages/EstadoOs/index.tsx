@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FiArrowLeft, FiEdit, FiTrash } from 'react-icons/fi';
+import { FiEdit, FiTrash } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
@@ -22,7 +22,7 @@ interface osStateData {
   osStateName: string;
 }
 
-const Locals: React.FC = () => {
+const EstadoOs: React.FC = () => {
   const history = useHistory();
 
   const [osState, setosState] = useState<osStateData[]>([]);
@@ -106,4 +106,4 @@ const Locals: React.FC = () => {
   );
 };
 
-export default Locals;
+export default EstadoOs;

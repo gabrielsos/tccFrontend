@@ -7,7 +7,7 @@ import Button from '../../components/Button';
 
 import { Container, Content, AnimationContainer } from './styles';
 
-const NewLocal: React.FC = () => {
+const NewOsType: React.FC = () => {
   const history = useHistory();
 
   const [typeName, setTypeName] = useState('');
@@ -30,7 +30,7 @@ const NewLocal: React.FC = () => {
         alert('Preencha todos os campos.');
       }
     },
-    [typeName],
+    [history, typeName],
   );
 
   return (
@@ -54,4 +54,4 @@ const NewLocal: React.FC = () => {
   );
 };
 
-export default NewLocal;
+export default NewOsType;

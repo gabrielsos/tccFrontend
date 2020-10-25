@@ -42,7 +42,7 @@ const UpdateOsType: React.FC = () => {
         alert('Preencha todos os campos.');
       }
     },
-    [history, typeName],
+    [history, osTypeId, typeName],
   );
 
   return (

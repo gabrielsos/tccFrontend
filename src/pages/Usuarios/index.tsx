@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FiArrowLeft, FiEdit, FiTrash } from 'react-icons/fi';
+import { FiEdit, FiTrash } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
@@ -113,8 +113,7 @@ const Users: React.FC = () => {
                         adm.name,
                         adm.email,
                         adm.userType,
-                      )
-                    }
+                      )}
                   />
                   <FiTrash
                     size={24}
@@ -152,8 +151,7 @@ const Users: React.FC = () => {
                         user.name,
                         user.email,
                         user.userType,
-                      )
-                    }
+                      )}
                   />
                   <FiTrash
                     size={24}
