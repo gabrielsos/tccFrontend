@@ -39,19 +39,29 @@ const Equipments: React.FC = () => {
     }
 
     loadData();
-  }, [equipmentsResponse]);
+  }, []);
 
   const handleNewEquipment = useCallback(() => {
     history.push(`/admin/equipamentos/new`);
   }, [history]);
 
-  const handleDelete = useCallback(async (equipmentSerialNumber: string) => {
-    try {
-      await api.delete(`equipment/${equipmentSerialNumber}`);
-    } catch {
-      alert('Não é possível excluir um local que já possuí registros');
-    }
-  }, []);
+  const handleDelete = useCallback(
+    async (equipmentSerialNumber: string) => {
+      try {
+        await api.delete(`equipment/${equipmentSerialNumber}`);
+
+        const newEquipment = equipmentsResponse.filter(
+          equipment =>
+            equipment.equipmentSerialNumber !== equipmentSerialNumber,
+        );
+
+        setEquipmentsResponse(newEquipment);
+      } catch {
+        alert('Não é possível excluir um local que já possuí registros');
+      }
+    },
+    [equipmentsResponse],
+  );
 
   const handleUpdate = useCallback(
     async (id: string, name: string, localId: number) => {
@@ -80,36 +90,33 @@ const Equipments: React.FC = () => {
         </ContentHeader>
         <ul>
           {equipmentsResponse.map(equipment => (
-            <>
-              <li key={equipment.equipmentSerialNumber}>
-                <NameContainer>
-                  <strong>Nome</strong>
-                  <p>{equipment.equipmentName}</p>
-                  <strong>Número de série</strong>
-                  <p>{equipment.equipmentSerialNumber}</p>
-                  <strong>Local</strong>
-                  <p>{equipment.localName}</p>
-                </NameContainer>
-                <ButtonsContainer>
-                  <FiEdit
-                    size={24}
-                    color="#fff"
-                    onClick={() =>
-                      handleUpdate(
-                        equipment.equipmentSerialNumber,
-                        equipment.equipmentName,
-                        equipment.localId,
-                      )}
-                  />
-                  <FiTrash
-                    size={24}
-                    color="#fff"
-                    onClick={() =>
-                      handleDelete(equipment.equipmentSerialNumber)}
-                  />
-                </ButtonsContainer>
-              </li>
-            </>
+            <li key={equipment.equipmentSerialNumber}>
+              <NameContainer>
+                <strong>Nome</strong>
+                <p>{equipment.equipmentName}</p>
+                <strong>Número de série</strong>
+                <p>{equipment.equipmentSerialNumber}</p>
+                <strong>Local</strong>
+                <p>{equipment.localName}</p>
+              </NameContainer>
+              <ButtonsContainer>
+                <FiEdit
+                  size={24}
+                  color="#fff"
+                  onClick={() =>
+                    handleUpdate(
+                      equipment.equipmentSerialNumber,
+                      equipment.equipmentName,
+                      equipment.localId,
+                    )}
+                />
+                <FiTrash
+                  size={24}
+                  color="#fff"
+                  onClick={() => handleDelete(equipment.equipmentSerialNumber)}
+                />
+              </ButtonsContainer>
+            </li>
           ))}
         </ul>
       </Content>

@@ -35,19 +35,26 @@ const EstadoOs: React.FC = () => {
     }
 
     loadData();
-  }, [osState]);
+  }, []);
 
   const handleNewOsState = useCallback(() => {
     history.push(`/admin/estado-os/new`);
   }, [history]);
 
-  const handleDelete = useCallback(async (id: number) => {
-    try {
-      await api.delete(`osstate/${id}`);
-    } catch {
-      alert('Não é possível excluir um dado que já possuí registros');
-    }
-  }, []);
+  const handleDelete = useCallback(
+    async (id: number) => {
+      try {
+        await api.delete(`osstate/${id}`);
+
+        const newOsStates = osState.filter(os => os.osStateId !== id);
+
+        setosState(newOsStates);
+      } catch {
+        alert('Não é possível excluir um dado que já possuí registros');
+      }
+    },
+    [osState],
+  );
 
   const handleUpdate = useCallback(
     async (id: number, name: string) => {
@@ -77,28 +84,26 @@ const EstadoOs: React.FC = () => {
         </ContentHeader>
         <ul>
           {osState.map(state => (
-            <>
-              <li key={state.osStateId}>
-                <NameContainer>
-                  <strong>Nome</strong>
-                  <p>{state.osStateName}</p>
-                </NameContainer>
-                <ButtonsContainer>
-                  <FiEdit
-                    size={24}
-                    color="#fff"
-                    onClick={() =>
-                      handleUpdate(state.osStateId, state.osStateName)
-                    }
-                  />
-                  <FiTrash
-                    size={24}
-                    color="#fff"
-                    onClick={() => handleDelete(state.osStateId)}
-                  />
-                </ButtonsContainer>
-              </li>
-            </>
+            <li key={state.osStateId}>
+              <NameContainer>
+                <strong>Nome</strong>
+                <p>{state.osStateName}</p>
+              </NameContainer>
+              <ButtonsContainer>
+                <FiEdit
+                  size={24}
+                  color="#fff"
+                  onClick={() =>
+                    handleUpdate(state.osStateId, state.osStateName)
+                  }
+                />
+                <FiTrash
+                  size={24}
+                  color="#fff"
+                  onClick={() => handleDelete(state.osStateId)}
+                />
+              </ButtonsContainer>
+            </li>
           ))}
         </ul>
       </Content>

@@ -35,19 +35,26 @@ const Locals: React.FC = () => {
     }
 
     loadData();
-  }, [localResponse]);
+  }, []);
 
   const handleNewLocal = useCallback(() => {
     history.push(`/admin/locais/new`);
   }, [history]);
 
-  const handleDelete = useCallback(async (id: number) => {
-    try {
-      await api.delete(`locals/${id}`);
-    } catch {
-      alert('Não é possível excluir um local que já possuí registros');
-    }
-  }, []);
+  const handleDelete = useCallback(
+    async (id: number) => {
+      try {
+        await api.delete(`locals/${id}`);
+
+        const newLocals = localResponse.filter(local => local.localId !== id);
+
+        setLocalResponse(newLocals);
+      } catch {
+        alert('Não é possível excluir um local que já possuí registros');
+      }
+    },
+    [localResponse],
+  );
 
   const handleUpdate = useCallback(
     async (id: number, name: string) => {
@@ -75,26 +82,24 @@ const Locals: React.FC = () => {
         </ContentHeader>
         <ul>
           {localResponse.map(local => (
-            <>
-              <li key={local.localId}>
-                <NameContainer>
-                  <strong>Nome</strong>
-                  <p>{local.localName}</p>
-                </NameContainer>
-                <ButtonsContainer>
-                  <FiEdit
-                    size={24}
-                    color="#fff"
-                    onClick={() => handleUpdate(local.localId, local.localName)}
-                  />
-                  <FiTrash
-                    size={24}
-                    color="#fff"
-                    onClick={() => handleDelete(local.localId)}
-                  />
-                </ButtonsContainer>
-              </li>
-            </>
+            <li key={local.localId}>
+              <NameContainer>
+                <strong>Nome</strong>
+                <p>{local.localName}</p>
+              </NameContainer>
+              <ButtonsContainer>
+                <FiEdit
+                  size={24}
+                  color="#fff"
+                  onClick={() => handleUpdate(local.localId, local.localName)}
+                />
+                <FiTrash
+                  size={24}
+                  color="#fff"
+                  onClick={() => handleDelete(local.localId)}
+                />
+              </ButtonsContainer>
+            </li>
           ))}
         </ul>
       </Content>

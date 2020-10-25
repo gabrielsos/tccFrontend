@@ -38,7 +38,7 @@ const Users: React.FC = () => {
     }
 
     loadData();
-  }, [admin]);
+  }, []);
 
   useEffect(() => {
     async function loadData() {
@@ -48,19 +48,28 @@ const Users: React.FC = () => {
     }
 
     loadData();
-  }, [users]);
+  }, []);
 
   const handleNewUser = useCallback(() => {
     history.push(`/admin/usuarios/new`);
   }, [history]);
 
-  const handleDelete = useCallback(async (loginName: string) => {
-    try {
-      await api.delete(`users/${loginName}`);
-    } catch {
-      alert('Não é possível excluir um usuário que já possuí registros');
-    }
-  }, []);
+  const handleDelete = useCallback(
+    async (loginName: string) => {
+      try {
+        await api.delete(`users/${loginName}`);
+
+        const newUsers = users.filter(user => user.loginName !== loginName);
+        const newAdm = admin.filter(adm => adm.loginName !== loginName);
+
+        setUsers(newUsers);
+        setAdmin(newAdm);
+      } catch {
+        alert('Não é possível excluir um usuário que já possuí registros');
+      }
+    },
+    [admin, users],
+  );
 
   const handleUpdate = useCallback(
     async (id: string, name: string, email: string, userType: string) => {
@@ -82,7 +91,7 @@ const Users: React.FC = () => {
         <ContentHeader>
           <AsideContainer>
             {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-            <h1>Total de usuarios: {admin.length + users.length}</h1>
+            <h1>Total de usuários: {admin.length + users.length}</h1>
           </AsideContainer>
           <Button type="button" onClick={handleNewUser}>
             Novo usuário
@@ -91,76 +100,72 @@ const Users: React.FC = () => {
         <ul>
           <h1>Administradores:</h1>
           {admin.map(adm => (
-            <>
-              <li key={adm.loginName}>
-                <NameContainer>
-                  <strong>Nome</strong>
-                  <p>{adm.name}</p>
+            <li key={adm.loginName}>
+              <NameContainer>
+                <strong>Nome</strong>
+                <p>{adm.name}</p>
 
-                  <strong>Nome de usuário</strong>
-                  <p>{adm.loginName}</p>
+                <strong>Nome de usuário</strong>
+                <p>{adm.loginName}</p>
 
-                  <strong>E-mail</strong>
-                  <p>{adm.email}</p>
-                </NameContainer>
-                <ButtonsContainer>
-                  <FiEdit
-                    size={24}
-                    color="#fff"
-                    onClick={() =>
-                      handleUpdate(
-                        adm.loginName,
-                        adm.name,
-                        adm.email,
-                        adm.userType,
-                      )}
-                  />
-                  <FiTrash
-                    size={24}
-                    color="#fff"
-                    onClick={() => handleDelete(adm.loginName)}
-                  />
-                </ButtonsContainer>
-              </li>
-            </>
+                <strong>E-mail</strong>
+                <p>{adm.email}</p>
+              </NameContainer>
+              <ButtonsContainer>
+                <FiEdit
+                  size={24}
+                  color="#fff"
+                  onClick={() =>
+                    handleUpdate(
+                      adm.loginName,
+                      adm.name,
+                      adm.email,
+                      adm.userType,
+                    )}
+                />
+                <FiTrash
+                  size={24}
+                  color="#fff"
+                  onClick={() => handleDelete(adm.loginName)}
+                />
+              </ButtonsContainer>
+            </li>
           ))}
         </ul>
 
         <ul>
           <h1>Usuários:</h1>
           {users.map(user => (
-            <>
-              <li key={user.loginName}>
-                <NameContainer>
-                  <strong>Nome</strong>
-                  <p>{user.name}</p>
+            <li key={user.loginName}>
+              <NameContainer>
+                <strong>Nome</strong>
+                <p>{user.name}</p>
 
-                  <strong>Nome de usuário</strong>
-                  <p>{user.loginName}</p>
+                <strong>Nome de usuário</strong>
+                <p>{user.loginName}</p>
 
-                  <strong>E-mail</strong>
-                  <p>{user.email}</p>
-                </NameContainer>
-                <ButtonsContainer>
-                  <FiEdit
-                    size={24}
-                    color="#fff"
-                    onClick={() =>
-                      handleUpdate(
-                        user.loginName,
-                        user.name,
-                        user.email,
-                        user.userType,
-                      )}
-                  />
-                  <FiTrash
-                    size={24}
-                    color="#fff"
-                    onClick={() => handleDelete(user.loginName)}
-                  />
-                </ButtonsContainer>
-              </li>
-            </>
+                <strong>E-mail</strong>
+                <p>{user.email}</p>
+              </NameContainer>
+              <ButtonsContainer>
+                <FiEdit
+                  size={24}
+                  color="#fff"
+                  onClick={() =>
+                    handleUpdate(
+                      user.loginName,
+                      user.name,
+                      user.email,
+                      user.userType,
+                    )}
+                />
+                <FiTrash
+                  size={24}
+                  color="#fff"
+                  onClick={() => handleDelete(user.loginName)}
+                />
+              </ButtonsContainer>
+            </li>
           ))}
         </ul>
       </Content>

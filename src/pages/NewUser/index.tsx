@@ -24,6 +24,8 @@ const NewUser: React.FC = () => {
     async (e: FormEvent) => {
       e.preventDefault();
 
+      console.log(selectedUserType);
+
       if (
         name !== '' ||
         loginName !== '' ||

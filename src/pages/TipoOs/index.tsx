@@ -35,19 +35,26 @@ const TipoOs: React.FC = () => {
     }
 
     loadData();
-  }, [osTypes]);
+  }, []);
 
   const handleNewOsType = useCallback(() => {
     history.push(`/admin/tipo-os/new`);
   }, [history]);
 
-  const handleDelete = useCallback(async (id: number) => {
-    try {
-      await api.delete(`ostype/${id}`);
-    } catch {
-      alert('Não é possível excluir um dado que já possuí registros');
-    }
-  }, []);
+  const handleDelete = useCallback(
+    async (id: number) => {
+      try {
+        await api.delete(`ostype/${id}`);
+
+        const newOsType = osTypes.filter(ostype => ostype.osTypeId !== id);
+
+        setosTypes(newOsType);
+      } catch {
+        alert('Não é possível excluir um dado que já possuí registros');
+      }
+    },
+    [osTypes],
+  );
 
   const handleUpdate = useCallback(
     async (id: number, name: string) => {
@@ -75,26 +82,24 @@ const TipoOs: React.FC = () => {
         </ContentHeader>
         <ul>
           {osTypes.map(type => (
-            <>
-              <li key={type.osTypeId}>
-                <NameContainer>
-                  <strong>Nome</strong>
-                  <p>{type.typeName}</p>
-                </NameContainer>
-                <ButtonsContainer>
-                  <FiEdit
-                    size={24}
-                    color="#fff"
-                    onClick={() => handleUpdate(type.osTypeId, type.typeName)}
-                  />
-                  <FiTrash
-                    size={24}
-                    color="#fff"
-                    onClick={() => handleDelete(type.osTypeId)}
-                  />
-                </ButtonsContainer>
-              </li>
-            </>
+            <li key={type.osTypeId}>
+              <NameContainer>
+                <strong>Nome</strong>
+                <p>{type.typeName}</p>
+              </NameContainer>
+              <ButtonsContainer>
+                <FiEdit
+                  size={24}
+                  color="#fff"
+                  onClick={() => handleUpdate(type.osTypeId, type.typeName)}
+                />
+                <FiTrash
+                  size={24}
+                  color="#fff"
+                  onClick={() => handleDelete(type.osTypeId)}
+                />
+              </ButtonsContainer>
+            </li>
           ))}
         </ul>
       </Content>
