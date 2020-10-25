@@ -41,8 +41,8 @@ const NewEquipment: React.FC = () => {
       e.preventDefault();
 
       if (
-        equipmentName !== '' ||
-        equipmentSerialNumber !== '' ||
+        equipmentName !== '' &&
+        equipmentSerialNumber !== '' &&
         selectedLocal !== '0'
       ) {
         try {
