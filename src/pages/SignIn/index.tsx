@@ -41,7 +41,6 @@ const SignIn: React.FC = () => {
           history.push('/profile');
         } else {
           history.push('/admin/home');
-          console.log('oii');
         }
       } catch (er) {
         alert('Usuário e/ou senha inválidos.');

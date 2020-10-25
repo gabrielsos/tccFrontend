@@ -27,7 +27,7 @@ const NewPassword: React.FC = () => {
             loginName,
           });
         } catch (err) {
-          console.log(err);
+          alert('Erro ao redefinir a senha.');
         }
       } else {
         alert('As senhas precisam ser iguais.');

@@ -108,8 +108,6 @@ const SignIn: React.FC = () => {
 
       const response = await api.get(`equipment/local/${local}`);
 
-      console.log(response.data);
-
       setSelectedEquipment('0');
       setAddedEquipments(['']);
       setAddedEquipmentsName(['']);
@@ -161,12 +159,10 @@ const SignIn: React.FC = () => {
       newAddedEquipment.shift();
       newAddedEquipmentName.shift();
 
-      console.log(newAddedEquipment.length);
       const teste = [];
 
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < newAddedEquipment.length; i++) {
-        console.log('entrou');
         teste.push({
           equipmentName: newAddedEquipmentName[i],
           equipmentSerialNumber: newAddedEquipment[i],
