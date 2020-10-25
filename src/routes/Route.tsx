@@ -29,7 +29,7 @@ const Route: React.FC<RouteProps> = ({
           <Redirect
             to={{
               // eslint-disable-next-line no-nested-ternary
-              pathname: isPrivate ? '/' : admin() ? '/profile' : '/admin',
+              pathname: isPrivate ? '/' : admin() ? '/profile' : '/admin/home',
               state: { from: location },
             }}
           />

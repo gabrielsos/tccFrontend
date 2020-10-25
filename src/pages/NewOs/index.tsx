@@ -106,11 +106,9 @@ const SignIn: React.FC = () => {
 
       setSelectedLocal(local);
 
-      const response = await api.get('equipment/local', {
-        headers: {
-          localid: local,
-        },
-      });
+      const response = await api.get(`equipment/local/${local}`);
+
+      console.log(response.data);
 
       setSelectedEquipment('0');
       setAddedEquipments(['']);
