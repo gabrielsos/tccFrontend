@@ -55,7 +55,7 @@ const SignIn: React.FC = () => {
           loginName,
         });
 
-        history.push(`/admin/os/${osId}`);
+        history.push(`/admin/home`);
       }
     },
     [description, history, selectedOsState],

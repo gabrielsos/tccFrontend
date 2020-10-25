@@ -22,15 +22,28 @@ const SignIn: React.FC = () => {
           password,
         });
 
+        console.log(response.data.userType);
+
         localStorage.setItem('loginName', response.data.loginName);
         localStorage.setItem('name', response.data.name);
         localStorage.setItem('email', response.data.email);
         localStorage.setItem('userType', response.data.userType);
 
-        if (response.data.userType === 1) {
+        if (
+          response.data.passwordExpired === 1 &&
+          response.data.userType === 0
+        ) {
+          history.push('/new-password');
+        } else if (
+          response.data.passwordExpired === 1 &&
+          response.data.userType === 1
+        ) {
+          history.push('/new-password');
+        } else if (response.data.userType === 1) {
           history.push('/profile');
         } else {
-          history.push('/admin');
+          history.push('/admin/home');
+          console.log('oii');
         }
       } catch (er) {
         alert('Usuário e/ou senha inválidos.');

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
+
 import HeaderMenu from '../../components/HeaderMenu';
 
 import api from '../../services/api';
@@ -37,8 +38,6 @@ const Profile: React.FC = () => {
           },
         });
 
-        console.log(response.data);
-
         setOs(response.data);
       }
     }
@@ -46,13 +45,17 @@ const Profile: React.FC = () => {
     loadData();
   }, []);
 
-  const handleShowRegisters = useCallback((id: string, osDateInit: string) => {
-    localStorage.setItem('osIdRegister', id);
-    localStorage.setItem('osDateInit', osDateInit);
-  }, []);
+  const handleShowRegisters = useCallback(
+    (id: string, osDateInit: string, osStateName: string) => {
+      localStorage.setItem('osIdRegister', id);
+      localStorage.setItem('osDateInit', osDateInit);
+      localStorage.setItem('osStateName', osStateName);
+    },
+    [],
+  );
 
   const handleNewOs = useCallback(() => {
-    history.push('profile/os/new');
+    history.push('/admin/os/new');
   }, [history]);
 
   return (
@@ -62,7 +65,7 @@ const Profile: React.FC = () => {
       <Content>
         <ContentHeader>
           {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-          <h1>Ordens de serviço não encerradas:</h1>
+          <h1>Total de ordens de serviço não encerradas: {os.length}</h1>
           <Button type="button" onClick={handleNewOs}>
             Nova ordem de serviço
           </Button>
@@ -71,7 +74,9 @@ const Profile: React.FC = () => {
           {os.map(o => (
             <Link
               to={`/admin/os/${o.osId}`}
-              onClick={() => handleShowRegisters(String(o.osId), o.initDate)}
+              onClick={() =>
+                handleShowRegisters(String(o.osId), o.initDate, o.osStateName)
+              }
             >
               <li key={o.osId}>
                 <strong>Status</strong>
@@ -91,9 +96,6 @@ const Profile: React.FC = () => {
 
                 <strong>Equipamento(s)</strong>
                 <p>{o.equip}</p>
-
-                <strong>Data de encerramento</strong>
-                <p>{o.rightFinalDate}</p>
               </li>
             </Link>
           ))}

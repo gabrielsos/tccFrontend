@@ -8,6 +8,8 @@ import Header from '../../components/Header';
 
 import { Container, Content, ContentHeader, AsideContainer } from './styles';
 import Button from '../../components/Button';
+import NotButton from '../../components/NotButton';
+import HeaderMenu from '../../components/HeaderMenu';
 
 interface osRegisterData {
   osId: number;
@@ -21,21 +23,26 @@ const Profile: React.FC = () => {
   const history = useHistory();
 
   const [osRegisters, setOsRegisters] = useState<osRegisterData[]>([]);
+  const [isFinished, setIsFinished] = useState(Boolean);
 
   useEffect(() => {
     async function loadData() {
       const name = localStorage.getItem('name');
       const osIdRegister = localStorage.getItem('osIdRegister');
+      const osStateName = localStorage.getItem('osStateName');
 
       if (name) {
-        const response = await api.get(`profile/registers/${osIdRegister}`);
+        if (osStateName === 'Encerrada') {
+          setIsFinished(true);
+        }
 
+        const response = await api.get(`profile/registers/${osIdRegister}`);
         setOsRegisters(response.data);
       }
     }
 
     loadData();
-  }, []);
+  }, [isFinished]);
 
   const handleNewRegister = useCallback(() => {
     const osId = localStorage.getItem('osIdRegister');
@@ -46,20 +53,20 @@ const Profile: React.FC = () => {
   return (
     <Container>
       <Header />
+      <HeaderMenu />
       <Content>
         <ContentHeader>
           <AsideContainer>
             {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
             <h1>Total de registros: {osRegisters.length}</h1>
-            <FiArrowLeft
-              size={24}
-              color="#ff9000"
-              onClick={() => history.push('/admin')}
-            />
           </AsideContainer>
-          <Button type="button" onClick={handleNewRegister}>
-            Novo registro
-          </Button>
+          {isFinished === false ? (
+            <Button type="button" onClick={handleNewRegister}>
+              Novo registro
+            </Button>
+          ) : (
+            <NotButton>Novo Registro</NotButton>
+          )}
         </ContentHeader>
         <ul>
           {osRegisters.map(o => (
