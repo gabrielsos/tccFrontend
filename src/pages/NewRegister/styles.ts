@@ -12,8 +12,9 @@ export const Container = styled.div`
     margin-bottom: 10px;
     border-radius: 10px;
     background: #fff;
-    color: #ff9000;
+    color: #000;
     height: 30px;
+    font-size: 14px;
   }
 `;
 
@@ -43,6 +44,7 @@ export const AnimationContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
 
@@ -62,7 +64,7 @@ export const AnimationContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin: 80px 0;
+    margin: 160px 0;
     width: 70%;
     height: 100%;
     text-align: center;
@@ -88,7 +90,7 @@ export const AnimationContainer = styled.div`
     margin: 10px 0 10px 0;
 
     ::placeholder {
-      color: #ff9000;
+      color: #000;
     }
   }
 

@@ -278,8 +278,7 @@ const SignIn: React.FC = () => {
                         handleDelete(
                           equipment.equipmentSerialNumber,
                           equipment.equipmentName,
-                        )
-                      }
+                        )}
                     />
                   </li>
                 ))}

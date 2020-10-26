@@ -29,7 +29,6 @@ const NewRegister: React.FC = () => {
     async function loadOsStates() {
       const response = await api.get('osStates');
 
-      console.log(response.data);
       setOsStates(response.data);
     }
 

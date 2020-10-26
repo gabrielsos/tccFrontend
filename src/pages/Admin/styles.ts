@@ -6,6 +6,10 @@ export const Container = styled.div`
   width: 100%;
   height: 100%;
   align-items: stretch;
+
+  li:nth-child(1) {
+    color: #ff9000;
+  }
 `;
 
 export const Header = styled.div`

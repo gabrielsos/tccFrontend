@@ -12,8 +12,13 @@ export const Container = styled.div`
     margin-right: 10px;
     border-radius: 10px;
     background: #fff;
-    color: #ff9000;
+    color: #000;
     height: 30px;
+    font-size: 14px;
+
+    option {
+      font-size: 14px;
+    }
   }
 `;
 
@@ -88,7 +93,7 @@ export const AnimationContainer = styled.div`
     margin: 10px 0 10px 0;
 
     ::placeholder {
-      color: #ff9000;
+      color: #000;
     }
   }
 
@@ -131,7 +136,7 @@ export const AddEquipmentContainer = styled.div`
 
   button {
     width: 150px;
-    color: #ff9000;
+    color: #000;
     border-radius: 10px;
   }
 `;
@@ -153,6 +158,7 @@ export const ListEquipmentContainer = styled.div`
 
     li {
       margin-top: 5px;
+      font-size: 20px;
     }
   }
 

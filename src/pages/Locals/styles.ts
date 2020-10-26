@@ -7,6 +7,10 @@ export const Container = styled.div`
   height: 100%;
   align-items: stretch;
 
+  li:nth-child(3) {
+    color: #ff9000;
+  }
+
   svg {
     cursor: pointer;
   }

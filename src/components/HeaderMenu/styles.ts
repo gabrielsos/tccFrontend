@@ -20,10 +20,6 @@ export const Container = styled.div`
     justify-content: space-between;
   }
 
-  li:hover {
-    color: #ff9000;
-  }
-
   li {
     display: flex;
     cursor: pointer;
