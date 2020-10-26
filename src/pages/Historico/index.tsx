@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState, useEffect, useCallback, ChangeEvent } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Chart from 'react-apexcharts';
 
 import api from '../../services/api';
@@ -11,8 +11,6 @@ import Header from '../../components/Header';
 import {
   Container,
   Content,
-  ContentHeader,
-  AsideContainer,
   SearchContainer,
   FilterContainer,
   StatisticsContainer,
@@ -45,7 +43,6 @@ interface EquipmentData {
 }
 
 const Historico: React.FC = () => {
-  const history = useHistory();
   const [locals, setLocals] = useState<LocalData[]>([]);
   const [selectedLocal, setSelectedLocal] = useState('0');
   const [equipments, setEquipments] = useState<EquipmentData[]>([]);
@@ -101,10 +98,6 @@ const Historico: React.FC = () => {
 
     loadData();
   }, [allOs]);
-
-  const handleNewOs = useCallback(() => {
-    history.push('/admin/os/new');
-  }, [history]);
 
   const handleShowRegisters = useCallback(
     (id: string, osDateInit: string, osStateName: string) => {

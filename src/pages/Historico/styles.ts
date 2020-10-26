@@ -85,12 +85,6 @@ export const FilterContainer = styled.div`
   }
 `;
 
-export const AsideContainer = styled.div`
-  h1 {
-    margin-bottom: 10px;
-  }
-`;
-
 export const Header = styled.div`
   display: flex;
   width: 100%;
@@ -103,18 +97,6 @@ export const Header = styled.div`
   h1 {
     font-size: 15px;
     color: #ff9000;
-  }
-`;
-
-export const ContentHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 10px 0 10px 0;
-
-  h1 {
-    font-size: 14px;
-    color: #fff;
   }
 `;
 
