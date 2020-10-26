@@ -1,12 +1,23 @@
-import React, { useState, useEffect, useCallback } from 'react';
+/* eslint-disable react/jsx-one-expression-per-line */
+import React, { useState, useEffect, useCallback, ChangeEvent } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import Chart from 'react-apexcharts';
 
 import api from '../../services/api';
 
 import HeaderMenu from '../../components/HeaderMenu';
 import Header from '../../components/Header';
 
-import { Container, Content, ContentHeader, AsideContainer } from './styles';
+import {
+  Container,
+  Content,
+  ContentHeader,
+  AsideContainer,
+  SearchContainer,
+  FilterContainer,
+  StatisticsContainer,
+  DataContainer,
+} from './styles';
 import Button from '../../components/Button';
 
 interface osData {
@@ -22,8 +33,26 @@ interface osData {
   typeName: string;
 }
 
+interface LocalData {
+  localId: number;
+  localName: string;
+}
+
+interface EquipmentData {
+  localId: number;
+  equipmentName: string;
+  equipmentSerialNumber: string;
+}
+
 const Historico: React.FC = () => {
   const history = useHistory();
+  const [locals, setLocals] = useState<LocalData[]>([]);
+  const [selectedLocal, setSelectedLocal] = useState('0');
+  const [equipments, setEquipments] = useState<EquipmentData[]>([]);
+  const [selectedEquipment, setSelectedEquipment] = useState('0');
+  const [totalOsAbertas, setTotalAbertas] = useState(0);
+  const [totalOsFechadas, setTotalFechadas] = useState(0);
+  const [totalOsAguardandoPecas, setTotalOsAguardandoPecas] = useState(0);
 
   const [allOs, setallOs] = useState<osData[]>([]);
 
@@ -36,6 +65,42 @@ const Historico: React.FC = () => {
 
     loadData();
   }, []);
+
+  useEffect(() => {
+    async function loadData() {
+      const totalAbertas = allOs.filter(
+        aberta => aberta.osStateName === 'Aberta',
+      );
+
+      setTotalAbertas(totalAbertas.length);
+    }
+
+    loadData();
+  }, [allOs]);
+
+  useEffect(() => {
+    async function loadData() {
+      const totalFechadas = allOs.filter(
+        fechada => fechada.osStateName === 'Encerrada',
+      );
+
+      setTotalFechadas(totalFechadas.length);
+    }
+
+    loadData();
+  }, [allOs]);
+
+  useEffect(() => {
+    async function loadData() {
+      const totalAguardandoPecas = allOs.filter(
+        aguardandoPecas => aguardandoPecas.osStateName === 'Aguardando Peças',
+      );
+
+      setTotalOsAguardandoPecas(totalAguardandoPecas.length);
+    }
+
+    loadData();
+  }, [allOs]);
 
   const handleNewOs = useCallback(() => {
     history.push('/admin/os/new');
@@ -50,26 +115,139 @@ const Historico: React.FC = () => {
     [],
   );
 
+  useEffect(() => {
+    async function loadData() {
+      const getLocals = await api.get('local');
+
+      setLocals(getLocals.data);
+    }
+
+    loadData();
+  }, []);
+
+  const handleSelectEquipment = useCallback(
+    async (event: ChangeEvent<HTMLSelectElement>) => {
+      const equipment = event.target.value;
+
+      const index = event.target.selectedIndex;
+      const equipmentName = event.target[index].textContent;
+
+      if (equipmentName) {
+        setSelectedEquipment(equipment);
+      }
+    },
+    [],
+  );
+
+  const handleSelectLocal = useCallback(
+    async (event: ChangeEvent<HTMLSelectElement>) => {
+      const local = event.target.value;
+
+      setSelectedLocal(local);
+
+      const response = await api.get(`equipment/local/${local}`);
+
+      setSelectedEquipment('0');
+
+      setEquipments(response.data);
+    },
+    [],
+  );
+
+  const handleSearchOsByEquipment = useCallback(async () => {
+    const response = await api.get(`/os-serial-number/${selectedEquipment}`);
+
+    setallOs(response.data);
+  }, [selectedEquipment]);
+
+  const handleCleanFilters = useCallback(async () => {
+    async function loadData() {
+      const response = await api.get('all-os');
+
+      setallOs(response.data);
+
+      setSelectedEquipment('0');
+      setSelectedLocal('0');
+    }
+
+    loadData();
+  }, []);
+
+  const state = {
+    series: [totalOsAbertas, totalOsFechadas, totalOsAguardandoPecas],
+    oprions: {
+      labels: ['Abertas', 'Encerradas', 'Aguardando Peças'],
+    },
+  };
+
   return (
     <Container>
       <Header />
       <HeaderMenu />
       <Content>
-        <ContentHeader>
-          <AsideContainer>
-            {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-            <h1>Total de ordens de serviço: {allOs.length}</h1>
-          </AsideContainer>
-          <Button type="button" onClick={handleNewOs}>
-            Nova ordem de serviço
-          </Button>
-        </ContentHeader>
+        <StatisticsContainer>
+          <DataContainer>
+            <h1>Total: {allOs.length}</h1>
+            <h1>Abertas: {totalOsAbertas}</h1>
+            <h1>Aguardando peças: {totalOsAguardandoPecas}</h1>
+            <h1>Encerradas: {totalOsFechadas}</h1>
+          </DataContainer>
+          <Chart
+            options={state.oprions}
+            series={state.series}
+            type="donut"
+            width={300}
+            height={320}
+          />
+        </StatisticsContainer>
+        <SearchContainer>
+          <h1>Filtrar por equipamento</h1>
+          <FilterContainer>
+            <select
+              value={selectedLocal}
+              onChange={handleSelectLocal}
+              name="local"
+              id="local"
+            >
+              <option value="0">Local</option>
+
+              {locals.map(local => (
+                <option key={local.localId} value={local.localId}>
+                  {local.localName}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={selectedEquipment}
+              onChange={handleSelectEquipment}
+              name="equipment"
+              id="equipment"
+            >
+              <option value="0">Equipamento</option>
+
+              {equipments.map(equipment => (
+                <option
+                  key={equipment.equipmentSerialNumber}
+                  value={equipment.equipmentSerialNumber}
+                >
+                  {equipment.equipmentName}
+                </option>
+              ))}
+            </select>
+
+            <Button onClick={handleSearchOsByEquipment}>Confirmar</Button>
+            <Button onClick={handleCleanFilters}>Limpar</Button>
+          </FilterContainer>
+        </SearchContainer>
         <ul>
           {allOs.map(o => (
             <Link
+              key={o.osId}
               to={`/admin/os/${o.osId}`}
               onClick={() =>
-                handleShowRegisters(String(o.osId), o.initDate, o.osStateName)}
+                handleShowRegisters(String(o.osId), o.initDate, o.osStateName)
+              }
             >
               <li key={o.osId}>
                 <strong>Status</strong>

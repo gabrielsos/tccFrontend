@@ -7,8 +7,81 @@ export const Container = styled.div`
   height: 100%;
   align-items: stretch;
 
+  li:nth-child(2) {
+    color: #ff9000;
+  }
+
   svg {
     cursor: pointer;
+  }
+`;
+
+export const StatisticsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  border-radius: 10px;
+  margin: 20px 0 20px 0;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  background: #4f4f4f;
+  padding: 20px;
+  color: #000;
+
+  span {
+    color: #fff !important;
+  }
+
+  svg {
+    cursor: pointer;
+  }
+`;
+
+export const DataContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+  h1 {
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+`;
+
+export const SearchContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  align-items: stretch;
+  margin-bottom: 10px;
+
+  h1 {
+    color: #fff;
+    font-size: 18px;
+  }
+`;
+
+export const FilterContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  align-items: stretch;
+  margin: 10px 0 10px 0;
+
+  select {
+    width: 20%;
+    border-radius: 10px;
+    margin-right: 20px;
+  }
+
+  button {
+    width: 20%;
+    margin-right: 20px;
   }
 `;
 
